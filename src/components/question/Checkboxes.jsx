@@ -50,11 +50,15 @@ function CheckBoxes({ ...props }) {
       {props.options?.map((option, index) => (
         <div className="flex gap-x-4 items-center">
           <Checkbox disabled key={`option-${index}`} value={option.id} />
-          <InputText
-            onChange={(e) => editOption(option.id, e.target.value)}
-            value={option.label}
-          />
-          {props.options.length > 1 && (
+          {props.preview ? (
+            option.label
+          ) : (
+            <InputText
+              onChange={(e) => editOption(option.id, e.target.value)}
+              value={option.label}
+            />
+          )}
+          {props.options.length > 1 && !props.preview && (
             <div
               onClick={() => removeOption(option.id)}
               className="text-red-500 hover:text-red-600 cursor-pointer h-fit w-fit"
@@ -64,7 +68,7 @@ function CheckBoxes({ ...props }) {
           )}
         </div>
       ))}
-      {props.options?.length < 4 && (
+      {props.options?.length < 4 && !props.preview && (
         <div className="flex items-center gap-x-4">
           <Checkbox disabled />
           <div

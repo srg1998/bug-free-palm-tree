@@ -3,7 +3,7 @@ import Dropdown from "../ui/input/Dropdown";
 import CustomInput from "../ui/input/Text";
 import { useDispatch } from "react-redux";
 
-function Queston({ questionText, fieldId, questionType }) {
+function Queston({ questionText, fieldId, questionType, preview }) {
   const dispatch = useDispatch();
   const QuestionTypes = [
     { value: "text", label: "Text" },
@@ -29,18 +29,24 @@ function Queston({ questionText, fieldId, questionType }) {
 
   return (
     <div className="flex md:flex-row flex-col gap-y-3 md:gap-y-0 md:gap-x-3 items-start md:items-center">
-      <CustomInput
-        value={questionText}
-        onChange={(e) => changeQuestionText(fieldId, e.target.value)}
-      />
-
-      <div className="bg-slate-100 flex gap-2 min-w-[130px]">
-        <Dropdown
-          value={questionType}
-          onChange={(e) => changeQuestionType(fieldId, e.target.value)}
-          options={QuestionTypes}
+      {preview ? (
+        questionText
+      ) : (
+        <CustomInput
+          value={questionText}
+          onChange={(e) => changeQuestionText(fieldId, e.target.value)}
         />
-      </div>
+      )}
+
+      {!preview && (
+        <div className="bg-slate-100 flex gap-2 min-w-[130px]">
+          <Dropdown
+            value={questionType}
+            onChange={(e) => changeQuestionType(fieldId, e.target.value)}
+            options={QuestionTypes}
+          />
+        </div>
+      )}
     </div>
   );
 }
